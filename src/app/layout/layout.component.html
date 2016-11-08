@@ -1,0 +1,41 @@
+<div class="container-fluid" style="display: flex; justify-content: center">
+
+  <!--Calculator-->
+  <div class="col-xs-12 col-sm-8 col-md-5 border">
+    <!--Result box-->
+    <div class="col-xs-12 border-result" style="margin: 5px">
+      <div class="col-xs-12" style="text-align: right;">{{service.buffer}}</div>
+      <input class="col-xs-12" style="text-align: right;" [(ngModel)]="service.result">
+    </div>
+
+
+
+    <!--Central Panel-->
+
+    <div class="row">
+      <div *ngFor="let item of centralPanel; let i = index">
+
+        <div class="{{getButtonSize(buttonsPerRow)}}">
+          <button class="btn {{getButtonColor(i+1, buttonsPerRow)}}" style="width: 100%; margin: 5px" (click)="pressButton(item)">{{item}}</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!--Reset and Equal-->
+
+    <div class="row">
+
+      <div class="col-xs-6">
+        <button class="btn btn-danger" style="width: 100%; margin: 5px;" (click)="pressButton('C')">C</button>
+      </div>
+
+      <div class="col-xs-6">
+        <button class="col-xs-6 btn btn-success" (click)="pressButton('=')" style="width: 100%; margin: 5px;">=</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

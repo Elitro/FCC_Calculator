@@ -1,0 +1,9 @@
+.border {
+    border: 5px solid red !important;
+    border-radius: 10px !important;
+}
+
+.border-result {
+    border: 5px solid black !important;
+    border-radius: 7px !important;
+}
