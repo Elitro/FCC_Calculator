@@ -37,8 +37,15 @@ export class ArithmeticService {
     let arrayOfOperations: Array<any> = new Array<any>();
 
     for (let i = 0; i < input.length; i++) {
-      if (input.charAt(i) !== 'x' && input.charAt(i) !== '-' && input.charAt(i) !== '/' && input.charAt(i) !== '+') {
+      if (input.charAt(i) !== 'x' && input.charAt(i) !== '/' && input.charAt(i) !== '+') {
         currentBuffer = currentBuffer.concat(input.charAt(i));
+      } else if (input.charAt(i) === '-') {
+        if (input.charAt(i + 1) && input.charAt(i + 1) === '-') {
+          arrayOfOperations.push(input.charAt(i));
+          currentBuffer = '';
+          currentBuffer = currentBuffer.concat(input.charAt(i + 1));
+          i++;
+        }
       } else {
         arrayOfOperations.push(currentBuffer);
         arrayOfOperations.push(input.charAt(i));
@@ -58,10 +65,10 @@ export class ArithmeticService {
     let result = 0;
     let arrayOfOperations: Array<any> = this.breakActionsIntoArray(operationString);
 
-    result = parseInt(arrayOfOperations[0], 10);
+    result = parseFloat(arrayOfOperations[0]);
 
     for (let i = 0; i < arrayOfOperations.length - 1; i = i + 2) {
-      result = this.applyOperation(arrayOfOperations[i + 1], result, parseInt(arrayOfOperations[i + 2], 10));
+      result = this.applyOperation(arrayOfOperations[i + 1], result, parseFloat(arrayOfOperations[i + 2]));
     }
 
     return result;
@@ -97,22 +104,22 @@ export class ArithmeticService {
     } else if (input === '±') {
       // If the last action wasn't an operation
       if (this.signalBuffer.length === 0) {
-        this.currentOperation = (parseInt(this.currentOperation, 10) * (-1)).toString();
+        this.currentOperation = (parseFloat(this.currentOperation) * (-1)).toString();
       }
 
     } else if (input === '.') {
-      // TODO
+      this.currentOperation = this.currentOperation.toString().concat(input);
 
     } else {
+      input = input.toString();
       if (this.signalBuffer.length > 0) {
         this.operationString = this.operationString.concat(this.lastOperation).concat(this.signalBuffer);
         this.currentOperation = input;
         this.signalBuffer = '';
         this.lastOperation = '';
       } else {
-        this.currentOperation = this.currentOperation.concat(input).toString();
+        this.currentOperation = this.currentOperation.concat(input);
       }
-      //this.operationString = this.operationString.concat(input);
     }
   }
 
